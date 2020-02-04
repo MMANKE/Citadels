@@ -46,7 +46,7 @@ public class City {
         }
         // Il est premier a avoir fini
         if (board.isFirst(this)) {
-            score += (4); // Corrigé, il y avait ecrit 2
+            score += (2);
         }
         // Il a fini aussi mais n'est pas le premier
         if (isComplete()) {
@@ -59,13 +59,13 @@ public class City {
         int score = 0;
         for (District d : districts()) {
             if (d == District.DRAGON_GATE) {
-                score = score + 2;
+                score += 2;
             }
             if (d == District.UNIVERSITY) {
-                score = score + 2;
+                score += 2;
             }
             if (d == District.TREASURY) {
-                score += score + possession.gold;
+                score += possession.gold;
             }
             if (d == District.MAP_ROOM) {
                 score += possession.hand.size();
