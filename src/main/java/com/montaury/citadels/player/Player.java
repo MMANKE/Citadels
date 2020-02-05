@@ -76,7 +76,7 @@ public class Player {
     }
 
     public int score() {
-        return city.score(new Possession(gold, cards));
+        return city.score(new Possession(gold, cards)).getScore();
     }
 
     public void exchangeHandWith(Player otherPlayer) {

@@ -19,13 +19,13 @@ public class CityTest {
         city.buildDistrict(Card.MANOR_1);
         city.buildDistrict(Card.MANOR_2);
         Possession possession = new Possession(0, HashSet.of(Card.MANOR_1));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(6);
+        assertThat(score.getScore()).isEqualTo(6);
     }
 
 
@@ -41,13 +41,13 @@ public class CityTest {
         city.buildDistrict(Card.PRISON_1);
         city.buildDistrict(Card.CASTLE_1);
         Possession possession = new Possession(0, HashSet.of(Card.TREASURY));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(16);
+        assertThat(score.getScore()).isEqualTo(16);
     }
 
 
@@ -68,13 +68,13 @@ public class CityTest {
         city.buildDistrict(Card.TAVERN_4);
         city.buildDistrict(Card.TAVERN_5);
         Possession possession = new Possession(0, HashSet.of(Card.TEMPLE_1));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(12);
+        assertThat(score.getScore()).isEqualTo(12);
     }
 
 
@@ -96,13 +96,13 @@ public class CityTest {
         city.buildDistrict(Card.TAVERN_4);
         city.buildDistrict(Card.TAVERN_5);
         Possession possession = new Possession(0, HashSet.of(Card.TEMPLE_1));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(10);
+        assertThat(score.getScore()).isEqualTo(10);
     }
 
 
@@ -114,13 +114,13 @@ public class CityTest {
         // Cout des cartes : DRAGON_GATE=6
         city.buildDistrict(Card.DRAGON_GATE);
         Possession possession = new Possession(0, HashSet.of(Card.MANOR_1));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(8);
+        assertThat(score.getScore()).isEqualTo(8);
     }
 
 
@@ -132,13 +132,13 @@ public class CityTest {
         // Cout des cartes : UNIVERSITY=6
         city.buildDistrict(Card.UNIVERSITY);
         Possession possession = new Possession(0, HashSet.of(Card.MANOR_1));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(8);
+        assertThat(score.getScore()).isEqualTo(8);
     }
 
 
@@ -150,13 +150,13 @@ public class CityTest {
         // Cout des cartes : TREASURY=5
         city.buildDistrict(Card.TREASURY);
         Possession possession = new Possession(5, HashSet.of(Card.MANOR_1));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(10);
+        assertThat(score.getScore()).isEqualTo(10);
     }
 
 
@@ -168,12 +168,12 @@ public class CityTest {
         // Cout des cartes : MAP_ROOM=5, MANOR=1*3
         city.buildDistrict(Card.MAP_ROOM);
         Possession possession = new Possession(5, HashSet.of(Card.MANOR_1,Card.MANOR_2,Card.MANOR_3));
-        int score = 0;
+        Score score;
 
         // WHEN
         score = city.score(possession);
 
         // THEN
-        assertThat(score).isEqualTo(8);
+        assertThat(score.getScore()).isEqualTo(8);
     }
 }

@@ -12,6 +12,10 @@ import static com.montaury.citadels.district.District.HAUNTED_CITY;
 
 public class City {
     private static final int END_GAME_DISTRICT_NUMBER = 8;
+    private static final int BONUS_POINTS_FOR_HAVING_ALL_DISTRICT_TYPES = 3;
+    private static final int BONUS_POINTS_FOR_FINISHING_FIRST = 2;
+    private static final int BONUS_POINTS_FOR_HAVING_MORE_THAN_END_GAME_DISTRICT_NUMBER = 2;
+
     private final Board board;
     private List<Card> districtCards = List.empty();
 
@@ -30,28 +34,23 @@ public class City {
         return districtCards.size() >= END_GAME_DISTRICT_NUMBER;
     }
 
-    public int score(Possession possession) {
-        int score = 0;
-
-        score += coutTotalConstructionQuartiers();
-        score += districtsScoreBonus(possession);
-        
-        // Il a des quartiers de 5 types
-        if (winsAllColorBonus()) {
-            score += 3; // Corrigé, il y avait ecrit 5
-        }
-        // Il est premier a avoir fini
-        if (board.isFirst(this)) {
-            score += (2);
-        }
-        // Il a fini aussi mais n'est pas le premier
-        if (isComplete()) {
-            score += (2);
-        }
-        return score;
+    public Score score(Possession possession) {
+        Score finalScore = new Score();
+        finalScore.addToScore(totalDisctrictBuildCost());
+        finalScore.addToScore(bonusScore(possession));
+        return finalScore;
     }
 
-    private int coutTotalConstructionQuartiers(){
+    private int bonusScore(Possession possession){
+        int scoreBonus = 0;
+        if (hasAllDistrictTypes()) { scoreBonus += BONUS_POINTS_FOR_HAVING_ALL_DISTRICT_TYPES; }
+        if (board.hasFinishedFirst(this)) { scoreBonus += (BONUS_POINTS_FOR_FINISHING_FIRST); }
+        if (isComplete()) { scoreBonus += (BONUS_POINTS_FOR_HAVING_MORE_THAN_END_GAME_DISTRICT_NUMBER); }
+        scoreBonus += districtsScoreBonus(possession);
+        return scoreBonus;
+    }
+
+    private int totalDisctrictBuildCost(){
         int coutTotal = 0;
         // Pour chaque quartier dans la ville, calcul le cout de la construction total des quartiers de la cités
         for(District district : districts()) {
@@ -79,7 +78,7 @@ public class City {
         return score;
     }
 
-    private boolean winsAllColorBonus() {
+    private boolean hasAllDistrictTypes() {
         int districtTypes[] = new int[DistrictType.values().length];
         for (District d : districts()) {
             districtTypes[d.districtType().ordinal()]++;
