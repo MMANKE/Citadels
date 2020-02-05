@@ -22,6 +22,9 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Citadels {
+    private static final int NUMBER_PLAYER_MIN = 2;
+    private static final int NUMBER_PLAYER_MAX = 8;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hello! Quel est votre nom ? ");
@@ -29,24 +32,24 @@ public class Citadels {
         System.out.println("Quel est votre age ? ");
         int playerAge = scanner.nextInt();
         Board board = new Board();
-        Player p = new Player(playerName, playerAge, new City(board), new HumanController());
-        p.human = true;
-        List<Player> players = List.of(p);
+        Player humanPlayer = new Player(playerName, playerAge, new City(board), new HumanController());
+        humanPlayer.human = true;
+        List<Player> players = List.of(humanPlayer);
         System.out.println("Saisir le nombre de joueurs total (entre 2 et 8): ");
-        int nbP;
+        int nbPlayer;
         do {
-            nbP = scanner.nextInt();
-        } while (nbP < 2 || nbP > 8);
-        for (int joueurs = 0; joueurs < nbP; joueurs += 1) {
-            Player player = new Player("Computer " + joueurs, 35, new City(board), new ComputerController());
-            player.computer = true;
-            players = players.append(player
+            nbPlayer = scanner.nextInt();
+        } while (nbPlayer < NUMBER_PLAYER_MIN || nbPlayer > NUMBER_PLAYER_MAX);
+        for (int numberCurrentPlayer = 0; numberCurrentPlayer < nbPlayer; numberCurrentPlayer += 1) {
+            Player computerPlayer = new Player("Computer " + numberCurrentPlayer, 35, new City(board), new ComputerController());
+            computerPlayer.computer = true;
+            players = players.append(computerPlayer
             );
         }
-        CardPile pioche = new CardPile(Card.all().toList().shuffle());
+        CardPile cardDraw = new CardPile(Card.all().toList().shuffle());
         players.forEach(player -> {
             player.add(2);
-            player.add(pioche.draw(2));
+            player.add(cardDraw.draw(2));
         });
         Player crown = players.maxBy(Player::age).get();
 
@@ -107,11 +110,11 @@ public class Citadels {
                             List<String> possibleActions = List.empty();
                             for (String action : availableActions) {
                                 if (action == "Draw 2 cards and keep 1") {
-                                    if (pioche.canDraw(2))
+                                    if (cardDraw.canDraw(2))
                                     possibleActions = possibleActions.append("Draw 2 cards and keep 1");
                                 }
                                 else if (action == "Draw 3 cards and keep 1") {
-                                    if (pioche.canDraw(3))
+                                    if (cardDraw.canDraw(3))
                                         possibleActions = possibleActions.append("Draw 2 cards and keep 1");
                                 }
                                 else {
@@ -121,10 +124,10 @@ public class Citadels {
                             String actionType = group.player().controller.selectActionAmong(possibleActions.toList());
                             // execute selected action
                             if (actionType == "Draw 2 cards and keep 1") {
-                                Set<Card> cardsDrawn = pioche.draw(2);
+                                Set<Card> cardsDrawn = cardDraw.draw(2);
                                 if (!group.player().city().has(District.LIBRARY)) {
                                     Card keptCard = group.player().controller.selectAmong(cardsDrawn);
-                                    pioche.discard(cardsDrawn.remove(keptCard).toList());
+                                    cardDraw.discard(cardsDrawn.remove(keptCard).toList());
                                     cardsDrawn = HashSet.of(keptCard);
                                 }
                                 group.player().add(cardsDrawn);
@@ -133,10 +136,10 @@ public class Citadels {
                                 group.player().add(2);
                             }
                             else if (actionType == "Draw 3 cards and keep 1") {
-                                Set<Card> cardsDrawn = pioche.draw(3);
+                                Set<Card> cardsDrawn = cardDraw.draw(3);
                                 if (!group.player().city().has(District.LIBRARY)) {
                                     Card keptCard = group.player().controller.selectAmong(cardsDrawn);
-                                    pioche.discard(cardsDrawn.remove(keptCard).toList());
+                                    cardDraw.discard(cardsDrawn.remove(keptCard).toList());
                                     cardsDrawn = HashSet.of(keptCard);
                                 }
                                 group.player().add(cardsDrawn);
@@ -179,16 +182,16 @@ public class Citadels {
                                         }
                                     }
                                     else if (action == "Draw 3 cards for 2 coins") {
-                                        if (pioche.canDraw(3) && group.player().canAfford(2))
+                                        if (cardDraw.canDraw(3) && group.player().canAfford(2))
                                         possibleActions2 = possibleActions2.append("Draw 3 cards for 2 coins");
                                     }
                                     else if (action == "Exchange cards with pile") {
-                                        if (!group.player().cards().isEmpty() && pioche.canDraw(1)) {
+                                        if (!group.player().cards().isEmpty() && cardDraw.canDraw(1)) {
                                             possibleActions2 = possibleActions2.append("Exchange cards with pile");
                                         }
                                     }
                                     else if (action == "Pick 2 cards") {
-                                        if (pioche.canDraw(2))
+                                        if (cardDraw.canDraw(2))
                                             possibleActions2 = possibleActions2.append("Pick 2 cards");
                                     }
                                     else
@@ -205,17 +208,17 @@ public class Citadels {
                                     Player player = group.player();
                                     Card card = player.controller.selectAmong(player.cards());
                                     player.cards = player.cards().remove(card);
-                                    pioche.discard(card);
+                                    cardDraw.discard(card);
                                     player.add(2);
                                     }
                                     else if (actionType1 == "Draw 3 cards for 2 coins") {
-                                    group.player().add(pioche.draw(3));
+                                    group.player().add(cardDraw.draw(3));
                                     group.player().pay(2);
                                     }
                                     else if (actionType1 == "Exchange cards with pile") {
                                     Set<Card> cardsToSwap = group.player().controller.selectManyAmong(group.player().cards());
                                     group.player().cards = group.player().cards().removeAll(cardsToSwap);
-                                    group.player().add(pioche.swapWith(cardsToSwap.toList()));
+                                    group.player().add(cardDraw.swapWith(cardsToSwap.toList()));
                                     }
                                     else if (actionType1 == "Exchange cards with other player") {
                                     Player playerToSwapWith = group.player().controller.selectPlayerAmong(groups.associations.map(Group::player).remove(group.player()));
@@ -226,7 +229,7 @@ public class Citadels {
                                     groups.associationToCharacter(characterToMurder).peek(Group::murder);
                                     }
                                     else if (actionType1 == "Pick 2 cards") {
-                                    group.player().add(pioche.draw(2));
+                                    group.player().add(cardDraw.draw(2));
                                     }
                                     else if (actionType1 == "Receive 2 coins") {
                                     group.player().add(2);
