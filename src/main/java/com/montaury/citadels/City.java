@@ -32,14 +32,10 @@ public class City {
 
     public int score(Possession possession) {
         int score = 0;
-        // Pour chaque quartier dans la ville, calcul le cout de la construction total des quartiers de la cités
-        for (int a = 0; a < districts().size(); a++) {
-            // La valeur des quartiers
-            score += districts().get(a).cost();
-        }
 
-        score = score + districtsScoreBonus(possession);
-
+        score += coutTotalConstructionQuartiers();
+        score += districtsScoreBonus(possession);
+        
         // Il a des quartiers de 5 types
         if (winsAllColorBonus()) {
             score += 3; // Corrigé, il y avait ecrit 5
@@ -53,6 +49,15 @@ public class City {
             score += (2);
         }
         return score;
+    }
+
+    private int coutTotalConstructionQuartiers(){
+        int coutTotal = 0;
+        // Pour chaque quartier dans la ville, calcul le cout de la construction total des quartiers de la cités
+        for(District district : districts()) {
+            coutTotal += district.cost();
+        }
+        return coutTotal;
     }
 
     private int districtsScoreBonus(Possession possession) {
