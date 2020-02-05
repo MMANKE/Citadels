@@ -34,7 +34,7 @@ public class City {
         return districtCards.size() >= END_GAME_DISTRICT_NUMBER;
     }
 
-    public Score score(Possession possession) {
+    public Score finalScore(Possession possession) {
         Score finalScore = new Score();
         finalScore.addToScore(totalDisctrictBuildCost());
         finalScore.addToScore(bonusScore(possession));
@@ -44,8 +44,8 @@ public class City {
     private int bonusScore(Possession possession){
         int scoreBonus = 0;
         if (hasAllDistrictTypes()) { scoreBonus += BONUS_POINTS_FOR_HAVING_ALL_DISTRICT_TYPES; }
-        if (board.hasFinishedFirst(this)) { scoreBonus += (BONUS_POINTS_FOR_FINISHING_FIRST); }
-        if (isComplete()) { scoreBonus += (BONUS_POINTS_FOR_HAVING_MORE_THAN_END_GAME_DISTRICT_NUMBER); }
+        if (board.hasFinishedFirst(this)) { scoreBonus += BONUS_POINTS_FOR_FINISHING_FIRST; }
+        if (isComplete()) { scoreBonus += BONUS_POINTS_FOR_HAVING_MORE_THAN_END_GAME_DISTRICT_NUMBER; }
         scoreBonus += districtsScoreBonus(possession);
         return scoreBonus;
     }

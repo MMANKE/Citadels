@@ -144,34 +144,8 @@ public class Citadels {
                             actionExecuted(group, actionType, associations);
 
                             // receive powers from the character
-                            List<String> powers = null;
-                            if (group.character == Character.ASSASSIN) {
-                                powers = List.of("Kill");
-                            }
-                            else if (group.character == Character.THIEF) {
-                                powers = List.of("Rob");
-                            }
-                            else if (group.character == Character.MAGICIAN) {
-                                powers = List.of("Exchange cards with other player", "Exchange cards with pile");
-                            }
-                            else if (group.character == Character.KING) {
-                                powers = List.of("Receive income");
-                            }
-                            else if (group.character == Character.BISHOP) {
-                                powers = List.of("Receive income");
-                            }
-                            else if (group.character == Character.MERCHANT) {
-                                powers = List.of("Receive income", "Receive 1 gold");
-                            }
-                            else if (group.character == Character.ARCHITECT) {
-                                powers = List.of("Pick 2 cards", "Build district", "Build district");
-                            }
-                            else if (group.character == Character.WARLORD) {
-                                powers = List.of("Receive income", "Destroy district");
-                            }
-                            else {
-                                System.out.println("Uh oh");
-                            }
+                            List<String> powers = List.of(group.character.getPowers().split(","));
+
                             List<String>  extraActions = List.empty();
                             for (District d : group.player().city().districts()) {
                                 if (d == District.SMITHY) {
@@ -306,7 +280,7 @@ public class Citadels {
             crown = roundAssociations.find(a -> a.character == Character.KING).map(Group::player).getOrElse(crown);
         } while (!players.map(Player::city).exists(City::isComplete));
 
-        // classe les joueurs par leur score
+        // classe les joueurs par leur finalScore
         // si ex-aequo, le premier est celui qui n'est pas assassiné
         // si pas d'assassiné, le gagnant est le joueur ayant eu le personnage avec le numéro d'ordre le plus petit au dernier tour
         System.out.println("Classement: " + roundAssociations.sortBy(a -> Tuple.of(a.player().score(), !a.isMurdered(), a.character))

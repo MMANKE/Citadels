@@ -22,7 +22,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(6);
@@ -44,7 +44,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(16);
@@ -71,7 +71,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(12);
@@ -99,7 +99,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(10);
@@ -117,7 +117,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(8);
@@ -135,7 +135,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(8);
@@ -153,7 +153,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(10);
@@ -171,7 +171,7 @@ public class CityTest {
         Score score;
 
         // WHEN
-        score = city.score(possession);
+        score = city.finalScore(possession);
 
         // THEN
         assertThat(score.getScore()).isEqualTo(8);

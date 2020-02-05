@@ -28,9 +28,9 @@ public enum District {
     MONASTERY(3, RELIGIOUS),
     CATHEDRAL(5, RELIGIOUS),
 
-    HAUNTED_CITY(2, SPECIAL), // Pour le calcul du score, la Cour des Miracles est considérée comme un quartier de la couleur de votre choix
-    DRAGON_GATE(6, SPECIAL), // Coûte 6 pièces d'or à bâtir mais vaut 8 points pour le calcul du score
-    UNIVERSITY(6, SPECIAL), // Coûte 6 pièces d'or à bâtir mais vaut 8 points pour le calcul du score
+    HAUNTED_CITY(2, SPECIAL), // Pour le calcul du finalScore, la Cour des Miracles est considérée comme un quartier de la couleur de votre choix
+    DRAGON_GATE(6, SPECIAL), // Coûte 6 pièces d'or à bâtir mais vaut 8 points pour le calcul du finalScore
+    UNIVERSITY(6, SPECIAL), // Coûte 6 pièces d'or à bâtir mais vaut 8 points pour le calcul du finalScore
     TREASURY(5, SPECIAL), // A la fin de la partie, marquez 1 point supp. pour chaque pièce d'or dans votre trésor
     MAP_ROOM(5, SPECIAL), // A la fin de la partie, marquez 1 point supp. pour chaque carte dans votre main
     OBSERVATORY(4, SPECIAL), // si vous choisissez de piocher des cartes au début de votre tour, piochez-en 3 au lieu de 2. Choisissez-en une et défaussez les 2 autres
