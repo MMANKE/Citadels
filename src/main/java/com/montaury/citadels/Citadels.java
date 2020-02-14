@@ -3,6 +3,7 @@ package com.montaury.citadels;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.character.RandomCharacterSelector;
 import com.montaury.citadels.district.Card;
+import com.montaury.citadels.district.DestructibleDistrict;
 import com.montaury.citadels.district.District;
 import com.montaury.citadels.district.DistrictType;
 import com.montaury.citadels.player.ComputerController;
@@ -12,6 +13,7 @@ import com.montaury.citadels.round.GameRoundAssociations;
 import com.montaury.citadels.round.Group;
 import com.montaury.citadels.round.action.DestroyDistrictAction;
 import io.vavr.Tuple;
+import io.vavr.collection.HashMap;
 import io.vavr.collection.HashSet;
 import io.vavr.collection.List;
 import io.vavr.collection.Set;
@@ -60,18 +62,17 @@ public class Citadels {
 
             List<Character> availableCharacters1 = availableCharacters;
             List<Character> discardedCharacters = List.empty();
-            for (int i = 0; i < 1; i++) {
                 Character discardedCharacter = randomCharacterSelector.among(availableCharacters1);
                 discardedCharacters = discardedCharacters.append(discardedCharacter);
-                availableCharacters1 = availableCharacters1.remove(discardedCharacter);
-            }
+                availableCharacters1.remove(discardedCharacter);
+
             Character faceDownDiscardedCharacter = discardedCharacters.head();
             availableCharacters = availableCharacters.remove(faceDownDiscardedCharacter);
 
             List<Character> availableCharacters11 = availableCharacters.remove(Character.KING);
             List<Character> discardedCharacters1 = List.empty();
             for (int i = 0; i < 7 - playersInOrder.size() - 1; i++) {
-                Character discardedCharacter = randomCharacterSelector.among(availableCharacters11);
+                discardedCharacter = randomCharacterSelector.among(availableCharacters11);
                 discardedCharacters1 = discardedCharacters1.append(discardedCharacter);
                 availableCharacters11 = availableCharacters11.remove(discardedCharacter);
             }
@@ -260,9 +261,8 @@ public class Citadels {
                                     }
                                     }
                                 else if (actionType1 == "Destroy district") {
-                                    // flemme...
-                                }
-                                    else if (actionType1 == "Rob") {
+                                        DestroyDistrict.destroyDistrict(group.player(), players);
+                                } else if (actionType1 == "Rob") {
                                     Character character = group.player().controller.selectAmong(List.of(Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD)
                                             .removeAll(groups.associations.find(Group::isMurdered).map(Group::character)));
                                     groups.associationToCharacter(character).peek(association -> association.stolenBy(group.player()));
@@ -290,8 +290,7 @@ public class Citadels {
 
     public static void actionExecuted(Group association, String actionType, List<Group> associations) {
         System.out.println("Player " + association.player().name() + " executed action " + actionType);
-        associations.map(Group::player)
-                .forEach(Citadels::displayStatus);
+        associations.map(Group::player).forEach(Citadels::displayStatus);
     }
 
     private static void displayStatus(Player player) {
