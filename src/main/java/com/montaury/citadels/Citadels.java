@@ -30,34 +30,18 @@ public class Citadels {
         System.out.println("Quel est votre age ? ");
         int playerAge = scanner.nextInt();
         Board board = new Board();
-<<<<<<< HEAD
-        Player humanPlayer = new Player(playerName, playerAge, new City(board), new HumanController());
-        humanPlayer.human = true;
-        List<Player> players = List.of(humanPlayer);
-=======
         Player p = new Player(playerName, playerAge, new City(board), new HumanController());
         p.isHuman = true;
         List<Player> players = List.of(p);
->>>>>>> 5b253e252878c5b3348890e8df2cd23e7056cebb
         System.out.println("Saisir le nombre de joueurs total (entre 2 et 8): ");
         int nbPlayer;
         do {
-<<<<<<< HEAD
             nbPlayer = scanner.nextInt();
         } while (nbPlayer < NUMBER_PLAYER_MIN || nbPlayer > NUMBER_PLAYER_MAX);
         for (int numberCurrentPlayer = 0; numberCurrentPlayer < nbPlayer; numberCurrentPlayer += 1) {
             Player computerPlayer = new Player("Computer " + numberCurrentPlayer, 35, new City(board), new ComputerController());
-            computerPlayer.computer = true;
-            players = players.append(computerPlayer
-=======
-            nbP = scanner.nextInt();
-        } while (nbP < 2 || nbP > 8);
-        for (int joueurs = 0; joueurs < nbP; joueurs += 1) {
-            Player player = new Player("Computer " + joueurs, 35, new City(board), new ComputerController());
-            player.isHuman = false;
-            players = players.append(player
->>>>>>> 5b253e252878c5b3348890e8df2cd23e7056cebb
-            );
+            computerPlayer.isHuman = false;
+            players = players.append(computerPlayer);
         }
         CardPile cardDraw = new CardPile(Card.all().toList().shuffle());
         players.forEach(player -> {
