@@ -3,6 +3,7 @@ package com.montaury.citadels;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.character.RandomCharacterSelector;
 import com.montaury.citadels.district.Card;
+import com.montaury.citadels.district.DestructibleDistrict;
 import com.montaury.citadels.district.District;
 import com.montaury.citadels.district.DistrictType;
 import com.montaury.citadels.player.ComputerController;
@@ -13,6 +14,7 @@ import com.montaury.citadels.round.Group;
 import com.montaury.citadels.round.action.DestroyDistrictAction;
 import com.montaury.citadels.round.Action;
 import io.vavr.Tuple;
+import io.vavr.collection.HashMap;
 import io.vavr.collection.HashSet;
 import io.vavr.collection.List;
 import io.vavr.collection.Set;
@@ -65,6 +67,7 @@ public class Citadels {
             Character discardedCharacter = randomCharacterSelector.among(availableCharacters1);
             discardedCharacters = discardedCharacters.append(discardedCharacter);
             availableCharacters1.remove(discardedCharacter);
+
 
             Character faceDownDiscardedCharacter = discardedCharacters.head();
             availableCharacters = availableCharacters.remove(faceDownDiscardedCharacter);
@@ -266,9 +269,9 @@ public class Citadels {
                                     }
                                 }
                                 else if (actionType1 == "Destroy district") {
-                                    // flemme...
-                                }
-                                else if (actionType1 == "Rob") {
+                                        DestroyDistrict.destroyDistrict(group.player(), players);
+                                } else if (actionType1 == "Rob") {
+
                                     Character character = group.player().controller.selectAmong(List.of(Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD)
                                             .removeAll(groups.associations.find(Group::isMurdered).map(Group::character)));
                                     groups.associationToCharacter(character).peek(association -> association.stolenBy(group.player()));
@@ -296,8 +299,7 @@ public class Citadels {
 
     public static void actionExecuted(Group association, String actionType, List<Group> associations) {
         System.out.println("Player " + association.player().name() + " executed action " + actionType);
-        associations.map(Group::player)
-                .forEach(Citadels::displayStatus);
+        associations.map(Group::player).forEach(Citadels::displayStatus);
     }
 
     private static void displayStatus(Player player) {

@@ -43,10 +43,6 @@ public class Player {
         this.cards = this.cards.addAll(cards);
     }
 
-    public void addCardInHand(Card card) {
-        cards = cards.add(card);
-    }
-
     public int gold() {
         return gold;
     }

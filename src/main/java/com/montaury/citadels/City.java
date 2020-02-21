@@ -124,4 +124,8 @@ public class City {
     public List<District> districts() {
         return districtCards.map(Card::district);
     }
+
+    public List<Card> districtAsCards() {
+        return districtCards;
+    }
 }

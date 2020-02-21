@@ -8,6 +8,7 @@ import io.vavr.collection.Map;
 import io.vavr.collection.Set;
 
 public interface PlayerController {
+
     Character selectOwnCharacter(List<Character> availableCharacters, List<Character> faceUpRevealedCharacters);
 
     String selectActionAmong(List<String> actions);
