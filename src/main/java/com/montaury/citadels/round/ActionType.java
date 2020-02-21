@@ -19,8 +19,8 @@ public enum ActionType {
     ROB("Rob", new RobAction());
 
 
-    ActionType(String labelAction, Action anAction){
-        this.labelAction = labelAction;
+    ActionType(String aLabelAction, Action anAction){
+        this.labelAction = aLabelAction;
         this.action = anAction;
     }
 
