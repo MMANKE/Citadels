@@ -1,6 +1,7 @@
 package com.montaury.citadels.round.action;
 
-public class Action {
+public abstract class Action {
 
+    public abstract void executeAction();
 
 }

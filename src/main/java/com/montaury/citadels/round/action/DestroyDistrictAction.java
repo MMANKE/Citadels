@@ -20,4 +20,9 @@ public class DestroyDistrictAction extends Action {
         }
         return destructibles;
     }
+
+    @Override
+    public void executeAction() {
+
+    }
 }
