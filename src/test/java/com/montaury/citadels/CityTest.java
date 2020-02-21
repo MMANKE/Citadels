@@ -18,7 +18,7 @@ public class CityTest {
         // Cout des cartes : Manor=3
         city.buildDistrict(Card.MANOR_1);
         city.buildDistrict(Card.MANOR_2);
-        Possession possession = new Possession(0, HashSet.of(Card.MANOR_1));
+        Possession possession = new Possession(0, HashSet.empty());
         Score score;
 
         // WHEN
@@ -40,7 +40,7 @@ public class CityTest {
         city.buildDistrict(Card.TAVERN_1);
         city.buildDistrict(Card.PRISON_1);
         city.buildDistrict(Card.CASTLE_1);
-        Possession possession = new Possession(0, HashSet.of(Card.TREASURY));
+        Possession possession = new Possession(0, HashSet.empty());
         Score score;
 
         // WHEN
@@ -67,7 +67,7 @@ public class CityTest {
         city.buildDistrict(Card.TAVERN_3);
         city.buildDistrict(Card.TAVERN_4);
         city.buildDistrict(Card.TAVERN_5);
-        Possession possession = new Possession(0, HashSet.of(Card.TEMPLE_1));
+        Possession possession = new Possession(0, HashSet.empty());
         Score score;
 
         // WHEN
@@ -95,7 +95,7 @@ public class CityTest {
         city.buildDistrict(Card.TAVERN_3);
         city.buildDistrict(Card.TAVERN_4);
         city.buildDistrict(Card.TAVERN_5);
-        Possession possession = new Possession(0, HashSet.of(Card.TEMPLE_1));
+        Possession possession = new Possession(0, HashSet.empty());
         Score score;
 
         // WHEN
@@ -113,7 +113,7 @@ public class CityTest {
         City city = new City(new Board());
         // Cout des cartes : DRAGON_GATE=6
         city.buildDistrict(Card.DRAGON_GATE);
-        Possession possession = new Possession(0, HashSet.of(Card.MANOR_1));
+        Possession possession = new Possession(0, HashSet.empty());
         Score score;
 
         // WHEN
@@ -131,7 +131,7 @@ public class CityTest {
         City city = new City(new Board());
         // Cout des cartes : UNIVERSITY=6
         city.buildDistrict(Card.UNIVERSITY);
-        Possession possession = new Possession(0, HashSet.of(Card.MANOR_1));
+        Possession possession = new Possession(0, HashSet.empty());
         Score score;
 
         // WHEN
@@ -149,7 +149,7 @@ public class CityTest {
         City city = new City(new Board());
         // Cout des cartes : TREASURY=5
         city.buildDistrict(Card.TREASURY);
-        Possession possession = new Possession(5, HashSet.of(Card.MANOR_1));
+        Possession possession = new Possession(5, HashSet.empty());
         Score score;
 
         // WHEN
