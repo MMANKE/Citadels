@@ -9,7 +9,7 @@ import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 
-public class DestroyDistrictAction {
+public class DestroyDistrictAction extends Action {
 
     public static Map<Player, List<DestructibleDistrict>> districtsDestructibleBy(GameRoundAssociations associations, Player player) {
         Map<Player, List<DestructibleDistrict>> destructibles = HashMap.empty();
