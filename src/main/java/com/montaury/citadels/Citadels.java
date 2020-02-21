@@ -3,7 +3,6 @@ package com.montaury.citadels;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.character.RandomCharacterSelector;
 import com.montaury.citadels.district.Card;
-import com.montaury.citadels.district.DestructibleDistrict;
 import com.montaury.citadels.district.District;
 import com.montaury.citadels.district.DistrictType;
 import com.montaury.citadels.player.ComputerController;
@@ -12,9 +11,8 @@ import com.montaury.citadels.player.Player;
 import com.montaury.citadels.round.GameRoundAssociations;
 import com.montaury.citadels.round.Group;
 import com.montaury.citadels.round.action.DestroyDistrictAction;
-import com.montaury.citadels.round.Action;
+import com.montaury.citadels.round.ActionType;
 import io.vavr.Tuple;
-import io.vavr.collection.HashMap;
 import io.vavr.collection.HashSet;
 import io.vavr.collection.List;
 import io.vavr.collection.Set;
@@ -100,7 +98,7 @@ public class Citadels {
                         else{
                             Group group = associations.get(ii);
                             associations.get(ii).thief().peek(thief -> thief.steal(group.player()));
-                            Set<String> baseActions = HashSet.of(Action.DRAW_2_CARDS_AND_KEEP_1.getNameAction(), Action.RECEIVE_2_COINS.getNameAction());
+                            Set<String> baseActions = HashSet.of(ActionType.DRAW_2_CARDS_AND_KEEP_1.getLabelAction(), ActionType.RECEIVE_2_COINS.getLabelAction());
                             List<District> districts = group.player().city().districts();
 
                             Set<String> availableActions = baseActions;
