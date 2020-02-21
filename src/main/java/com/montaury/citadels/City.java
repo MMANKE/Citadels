@@ -35,9 +35,9 @@ public class City {
     }
 
     public Score finalScore(Possession possession) {
-        Score finalScore = new Score();
-        finalScore.addToScore(totalDisctrictBuildCost());
-        finalScore.addToScore(bonusScore(possession));
+        Score finalScore = Score.of(0);
+        finalScore.addToScore(Score.of(totalDisctrictBuildCost()));
+        finalScore.addToScore(Score.of(bonusScore(possession)));
         return finalScore;
     }
 
@@ -51,12 +51,11 @@ public class City {
     }
 
     private int totalDisctrictBuildCost(){
-        int coutTotal = 0;
-        // Pour chaque quartier dans la ville, calcul le cout de la construction total des quartiers de la cités
+        int totalCost = 0;
         for(District district : districts()) {
-            coutTotal += district.cost();
+            totalCost += district.cost();
         }
-        return coutTotal;
+        return totalCost;
     }
 
     private int districtsScoreBonus(Possession possession) {

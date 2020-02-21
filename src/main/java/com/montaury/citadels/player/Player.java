@@ -35,8 +35,8 @@ public class Player {
         return city;
     }
 
-    public void add(int add) {
-        gold+= (add);
+    public void add(int goldCoins) {
+        gold+= goldCoins;
     }
 
     public void add(Set<Card> cards) {
