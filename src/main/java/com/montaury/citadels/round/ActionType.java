@@ -7,6 +7,7 @@ public enum ActionType {
     BUILD_DISTRICT("Build district", new BuildDistrictAction()),
     DISCARD_CARD_FOR_2_COINS("Discard card for 2 coins", new DiscardCardForTwoCoinsAction()),
     DRAW_3_CARDS_FOR_2_COINS("Draw 3 cards for 2 coins", new DrawThreeCardsForTwoCoinsAction()),
+    DRAW_3_CARDS_AND_KEEP_1("Draw 3 cards and keep 1", new DrawThreeCardsAndKeepOneAction()),
     DRAW_2_CARDS_AND_KEEP_1("Draw 2 cards and keep 1", new DrawTwoCardsAndKeepOneAction()),
     EXCHANGE_CARD_WITH_PILE("Exchange cards with pile", new ExchangeCardsWithPileAction()),
     EXCHANGE_CARD_WITH_OTHER_PLAYER("Exchange cards with other player", new ExchangeCardsWithOtherPlayerAction()),
@@ -19,13 +20,9 @@ public enum ActionType {
     ROB("Rob", new RobAction());
 
 
-    ActionType(String aLabelAction, Action anAction){
+    ActionType(String aLabelAction, Action anAction) {
         this.labelAction = aLabelAction;
         this.action = anAction;
-    }
-
-    public String getLabelAction(){
-        return labelAction;
     }
 
     public String getLabel(){

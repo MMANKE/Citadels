@@ -3,8 +3,7 @@ package com.montaury.citadels.round.action;
 import com.montaury.citadels.player.Player;
 import com.montaury.citadels.round.GameRoundAssociations;
 
-public class DiscardCardForTwoCoinsAction implements Action {
-
+public class DrawThreeCardsAndKeepOneAction implements Action {
     @Override
     public void executeAction() {
 
@@ -14,5 +13,4 @@ public class DiscardCardForTwoCoinsAction implements Action {
     public boolean isAvailableForPlayer(Player p, GameRoundAssociations associations) {
         return false;
     }
-
 }

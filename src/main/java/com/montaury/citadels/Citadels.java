@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 public class Citadels {
     private static final int NUMBER_PLAYER_MIN = 2;
-    private static final int NUMBER_PLAYER_MAX = 8;
+    private static final int NUMBER_PLAYER_MAX = 7;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -35,12 +35,12 @@ public class Citadels {
         Player humanPlayer = new Player(playerName, playerAge, new City(board), new HumanController());
         humanPlayer.isHuman = true;
         List<Player> players = List.of(humanPlayer);
-        System.out.println("Saisir le nombre de joueurs total (entre 2 et 8): ");
         int nbPlayer;
         do {
+            System.out.println("Saisir le nombre de joueurs total (entre 2 et 7): ");
             nbPlayer = scanner.nextInt();
         } while (nbPlayer < NUMBER_PLAYER_MIN || nbPlayer > NUMBER_PLAYER_MAX);
-        for (int numberCurrentPlayer = 0; numberCurrentPlayer < nbPlayer; numberCurrentPlayer += 1) {
+        for (int numberCurrentPlayer = 1; numberCurrentPlayer < nbPlayer; numberCurrentPlayer += 1) {
             Player computerPlayer = new Player("Computer " + numberCurrentPlayer, 35, new City(board), new ComputerController());
             computerPlayer.isHuman = false;
             players = players.append(computerPlayer);
@@ -99,33 +99,33 @@ public class Citadels {
                         else{
                             Group group = associations.get(ii);
                             associations.get(ii).thief().peek(thief -> thief.steal(group.player()));
-                            Set<String> baseActions = HashSet.of(ActionType.DRAW_2_CARDS_AND_KEEP_1.getLabelAction(), ActionType.RECEIVE_2_COINS.getLabelAction());
+                            Set<ActionType> baseActions = HashSet.of(ActionType.DRAW_2_CARDS_AND_KEEP_1, ActionType.RECEIVE_2_COINS);
                             List<District> districts = group.player().city().districts();
 
-                            Set<String> availableActions = baseActions;
+                            Set<ActionType> availableActions = baseActions;
                             for (District currentDistrict : districts) {
                                 if (currentDistrict == District.OBSERVATORY) {
-                                    availableActions = availableActions.replace("Draw 2 cards and keep 1", "Draw 3 cards and keep 1");
+                                    availableActions = availableActions.replace(ActionType.DRAW_2_CARDS_AND_KEEP_1, ActionType.DRAW_3_CARDS_AND_KEEP_1);
                                 }
                             }
                             // keep only actions that player can realize
-                            List<String> possibleActions = List.empty();
-                            for (String action : availableActions) {
+                            List<ActionType> possibleActions = List.empty();
+                            for (ActionType action : availableActions) {
 
-                                if (action == "Draw 2 cards and keep 1") {
+                                if (action == ActionType.DRAW_2_CARDS_AND_KEEP_1) {
                                     if (cardDraw.canDraw(2))
-                                        possibleActions = possibleActions.append("Draw 2 cards and keep 1");
+                                        possibleActions = possibleActions.append(ActionType.DRAW_2_CARDS_AND_KEEP_1);
                                 }
-                                else if (action == "Draw 3 cards and keep 1") {
+                                else if (action == ActionType.DRAW_3_CARDS_AND_KEEP_1) {
                                     if (cardDraw.canDraw(3))
-                                        possibleActions = possibleActions.append("Draw 2 cards and keep 1");
+                                        possibleActions = possibleActions.append(ActionType.DRAW_3_CARDS_AND_KEEP_1);
                                 }
                                 else {
                                     possibleActions = possibleActions.append(action);
                                 }
 
                             }
-                            ActionType actionType = group.player().controller.selectActionAmong(possibleActions.toList());
+                            ActionType actionType = group.player().controller.selectActionTypeAmong(possibleActions.toList());
                             // execute selected action
                             if (actionType == ActionType.DRAW_2_CARDS_AND_KEEP_1) {
                                 Set<Card> cardsDrawn = cardDraw.draw(2);
@@ -139,7 +139,7 @@ public class Citadels {
                             else if (actionType == ActionType.RECEIVE_2_COINS) {
                                 group.player().add(2);
                             }
-                            else if (actionType == "Draw 3 cards and keep 1") {
+                            else if (actionType == ActionType.DRAW_3_CARDS_AND_KEEP_1) {
                                 Set<Card> cardsDrawn = cardDraw.draw(3);
                                 if (!group.player().city().has(District.LIBRARY)) {
                                     Card keptCard = group.player().controller.selectAmong(cardsDrawn);
@@ -165,6 +165,7 @@ public class Citadels {
                             Set<ActionType> availableActions11 = Group.OPTIONAL_ACTIONS
                                     .addAll(powers)
                                     .addAll(extraActions);
+                            ActionType actionType1 = null;
                             do {
                                 Set<ActionType> availableActions1 = availableActions11;
                                 // keep only actions that player can realize
@@ -200,7 +201,7 @@ public class Citadels {
                                     else
                                         possibleActions2 = possibleActions2.append(action);
                                 }
-                                ActionType actionType1 = group.player().controller.selectActionTypeAmong(possibleActions2.toList());
+                                actionType1 = group.player().controller.selectActionTypeAmong(possibleActions2.toList());
                                 // execute selected action
 
                                 executeAction(actionType1,group,cardDraw,groups,players);

@@ -1,8 +1,9 @@
 package com.montaury.citadels.round.action;
 
 import com.montaury.citadels.player.Player;
+import com.montaury.citadels.round.GameRoundAssociations;
 
-public class DrawThreeCardsForTwoCoinsAction extends Action {
+public class DrawThreeCardsForTwoCoinsAction implements Action {
 
     @Override
     public void executeAction() {
@@ -10,7 +11,8 @@ public class DrawThreeCardsForTwoCoinsAction extends Action {
     }
 
     @Override
-    public boolean isAvailableForPlayer(Player p) {
+    public boolean isAvailableForPlayer(Player p, GameRoundAssociations associations) {
         return false;
     }
+
 }

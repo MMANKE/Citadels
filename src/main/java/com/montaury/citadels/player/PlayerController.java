@@ -4,7 +4,6 @@ import com.montaury.citadels.character.Character;
 import com.montaury.citadels.district.Card;
 import com.montaury.citadels.district.DestructibleDistrict;
 import com.montaury.citadels.round.ActionType;
-import com.montaury.citadels.round.action.Action;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import io.vavr.collection.Set;
