@@ -20,4 +20,6 @@ public class Score {
          return new Score(value);
      }
 
+     public static Score nil() { return  Score.of(0); }
+
 }

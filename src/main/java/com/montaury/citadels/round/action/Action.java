@@ -1,7 +1,12 @@
 package com.montaury.citadels.round.action;
 
-public abstract class Action {
+import com.montaury.citadels.player.Player;
+import com.montaury.citadels.round.GameRoundAssociations;
 
-    public abstract void executeAction();
+public interface Action {
+
+    void executeAction();
+
+    boolean isAvailableForPlayer(Player p, GameRoundAssociations associations);
 
 }

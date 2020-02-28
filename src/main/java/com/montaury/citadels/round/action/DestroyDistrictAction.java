@@ -9,7 +9,7 @@ import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 
-public class DestroyDistrictAction extends Action {
+public class DestroyDistrictAction implements Action {
 
     public static Map<Player, List<DestructibleDistrict>> districtsDestructibleBy(GameRoundAssociations associations, Player player) {
         Map<Player, List<DestructibleDistrict>> destructibles = HashMap.empty();
@@ -25,4 +25,10 @@ public class DestroyDistrictAction extends Action {
     public void executeAction() {
 
     }
+
+    @Override
+    public boolean isAvailableForPlayer(Player p, GameRoundAssociations associatons) {
+        return districtsDestructibleBy(associatons, p).exists(districtsByPlayer -> !districtsByPlayer._2().isEmpty());
+    }
+
 }

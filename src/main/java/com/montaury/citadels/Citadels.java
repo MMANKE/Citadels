@@ -10,6 +10,7 @@ import com.montaury.citadels.player.HumanController;
 import com.montaury.citadels.player.Player;
 import com.montaury.citadels.round.GameRoundAssociations;
 import com.montaury.citadels.round.Group;
+import com.montaury.citadels.round.action.Action;
 import com.montaury.citadels.round.action.DestroyDistrictAction;
 import com.montaury.citadels.round.ActionType;
 import io.vavr.Tuple;
@@ -80,15 +81,15 @@ public class Citadels {
             List<Character> faceUpDiscardedCharacters = discardedCharacters1;
             availableCharacters = availableCharacters.removeAll(faceUpDiscardedCharacters);
 
-            List<Group> associations1 = List.empty();
+            List<Group> associations = List.empty();
             for (Player player : playersInOrder) {
                 System.out.println(player.name() + " doit choisir un personnage");
                 availableCharacters = availableCharacters.size() == 1 && playersInOrder.size() == 7 ? availableCharacters.append(faceDownDiscardedCharacter) : availableCharacters;
                 Character selectedCharacter = player.controller.selectOwnCharacter(availableCharacters, faceUpDiscardedCharacters);
                 availableCharacters = availableCharacters.remove(selectedCharacter);
-                associations1 = associations1.append(new Group(player, selectedCharacter));
+                associations = associations.append(new Group(player, selectedCharacter));
             }
-            List<Group> associations = associations1;
+
             GameRoundAssociations groups = new GameRoundAssociations(associations);
 
             for (int iii = 0; iii < 8; iii++) {
@@ -124,9 +125,9 @@ public class Citadels {
                                 }
 
                             }
-                            String actionType = group.player().controller.selectActionAmong(possibleActions.toList());
+                            ActionType actionType = group.player().controller.selectActionAmong(possibleActions.toList());
                             // execute selected action
-                            if (actionType == "Draw 2 cards and keep 1") {
+                            if (actionType == ActionType.DRAW_2_CARDS_AND_KEEP_1) {
                                 Set<Card> cardsDrawn = cardDraw.draw(2);
                                 if (!group.player().city().has(District.LIBRARY)) {
                                     Card keptCard = group.player().controller.selectAmong(cardsDrawn);
@@ -135,7 +136,7 @@ public class Citadels {
                                 }
                                 group.player().add(cardsDrawn);
                             }
-                            else if (actionType == "Receive 2 coins") {
+                            else if (actionType == ActionType.RECEIVE_2_COINS) {
                                 group.player().add(2);
                             }
                             else if (actionType == "Draw 3 cards and keep 1") {
@@ -150,66 +151,64 @@ public class Citadels {
                             actionExecuted(group, actionType, associations);
 
                             // receive powers from the character
-                            List<String> powers = List.of(group.character.getPowers().split(","));
+                            List<ActionType> powers = group.character.getPowers();
 
-                            List<String>  extraActions = List.empty();
+                            List<ActionType>  extraActions = List.empty();
                             for (District d : group.player().city().districts()) {
                                 if (d == District.SMITHY) {
-                                    extraActions = extraActions.append("Draw 3 cards for 2 coins");
+                                    extraActions = extraActions.append(ActionType.DRAW_3_CARDS_FOR_2_COINS);
                                 }
                                 if (d == District.LABORATORY) {
-                                    extraActions = extraActions.append("Discard card for 2 coins");
+                                    extraActions = extraActions.append(ActionType.DISCARD_CARD_FOR_2_COINS);
                                 }
                             }
-                            Set<String> availableActions11 = Group.OPTIONAL_ACTIONS
+                            Set<ActionType> availableActions11 = Group.OPTIONAL_ACTIONS
                                     .addAll(powers)
                                     .addAll(extraActions);
-                            String actionType11;
                             do {
-                                Set<String> availableActions1 = availableActions11;
+                                Set<ActionType> availableActions1 = availableActions11;
                                 // keep only actions that player can realize
-                                List<String> possibleActions2 = List.empty();
-                                for (String action : availableActions1) {
-                                    if (action == "Build district") {
+                                List<ActionType> possibleActions2 = List.empty();
+                                for (ActionType action : availableActions1) {
+                                    if (action == ActionType.BUILD_DISTRICT) {
                                         if (!group.player().buildableDistrictsInHand().isEmpty())
-                                            possibleActions2 = possibleActions2.append("Build district");
+                                            possibleActions2 = possibleActions2.append(ActionType.BUILD_DISTRICT);
                                     }
-                                    else if (action == "Destroy district") {
+                                    else if (action == ActionType.DESTROY_DISTRICT) {
                                         if (DestroyDistrictAction.districtsDestructibleBy(groups, group.player()).exists(districtsByPlayer -> !districtsByPlayer._2().isEmpty())) {
-                                            possibleActions2 = possibleActions2.append("Destroy district");
+                                            possibleActions2 = possibleActions2.append(ActionType.DESTROY_DISTRICT);
                                         }
                                     }
-                                    else if (action == "Discard card for 2 coins") {
+                                    else if (action == ActionType.DISCARD_CARD_FOR_2_COINS) {
                                         if (!group.player().cards().isEmpty()) {
-                                            possibleActions2 = possibleActions2.append("Discard card for 2 coins");
+                                            possibleActions2 = possibleActions2.append(ActionType.DISCARD_CARD_FOR_2_COINS);
                                         }
                                     }
-                                    else if (action == "Draw 3 cards for 2 coins") {
+                                    else if (action == ActionType.DRAW_3_CARDS_FOR_2_COINS) {
                                         if (cardDraw.canDraw(3) && group.player().canAfford(2))
-                                        possibleActions2 = possibleActions2.append("Draw 3 cards for 2 coins");
+                                        possibleActions2 = possibleActions2.append(ActionType.DRAW_3_CARDS_FOR_2_COINS);
                                     }
-                                    else if (action == "Exchange cards with pile") {
+                                    else if (action == ActionType.EXCHANGE_CARD_WITH_PILE) {
                                         if (!group.player().cards().isEmpty() && cardDraw.canDraw(1)) {
-                                            possibleActions2 = possibleActions2.append("Exchange cards with pile");
+                                            possibleActions2 = possibleActions2.append(ActionType.EXCHANGE_CARD_WITH_PILE);
                                         }
                                     }
-                                    else if (action == "Pick 2 cards") {
+                                    else if (action == ActionType.PICK_2_CARDS) {
                                         if (cardDraw.canDraw(2))
-                                            possibleActions2 = possibleActions2.append("Pick 2 cards");
+                                            possibleActions2 = possibleActions2.append(ActionType.PICK_2_CARDS);
                                     }
                                     else
                                         possibleActions2 = possibleActions2.append(action);
                                 }
-                                String actionType1 = group.player().controller.selectActionAmong(possibleActions2.toList());
+                                ActionType actionType1 = group.player().controller.selectActionTypeAmong(possibleActions2.toList());
                                 // execute selected action
 
                                 executeAction(actionType1,group,cardDraw,groups,players);
 
                                 actionExecuted(group, actionType1, associations);
-                                actionType11 = actionType1;
-                                availableActions11 = availableActions11.remove(actionType11);
+                                availableActions11 = availableActions11.remove(actionType1);
                             }
-                            while (!availableActions11.isEmpty() && actionType11 != "End round");
+                            while (!availableActions11.isEmpty() && actionType1 != ActionType.END_ROUND);
                         }
                     }
                 }
@@ -226,8 +225,8 @@ public class Citadels {
                 .map(Group::player));
     }
 
-    public static void actionExecuted(Group association, String actionType, List<Group> associations) {
-        System.out.println("Player " + association.player().name() + " executed action " + actionType);
+    public static void actionExecuted(Group association, ActionType actionType, List<Group> associations) {
+        System.out.println("Player " + association.player().name() + " executed action " + actionType.getLabel());
         associations.map(Group::player).forEach(Citadels::displayStatus);
     }
 
@@ -260,48 +259,45 @@ public class Citadels {
         return textDistrict(card.district());
     }
 
-    private static void executeAction(String actionType1, Group group, CardPile cardDraw, GameRoundAssociations groups, List<Player> players){
-
-        if (actionType1 == "End round")
-        {}
-        else if (actionType1 == "Build district") {
+    private static void executeAction(ActionType actionType, Group group, CardPile cardDraw, GameRoundAssociations groups, List<Player> players){
+        if (actionType == ActionType.BUILD_DISTRICT) {
             Card card = group.player().controller.selectAmong(group.player().buildableDistrictsInHand());
             group.player().buildDistrict(card);
         }
-        else if (actionType1 == "Discard card for 2 coins") {
+        else if (actionType == ActionType.DISCARD_CARD_FOR_2_COINS) {
             Player player = group.player();
             Card card = player.controller.selectAmong(player.cards());
             player.cards = player.cards().remove(card);
             cardDraw.discard(card);
             player.add(2);
         }
-        else if (actionType1 == "Draw 3 cards for 2 coins") {
+        else if (actionType == ActionType.DRAW_3_CARDS_FOR_2_COINS) {
             group.player().add(cardDraw.draw(3));
             group.player().pay(2);
         }
-        else if (actionType1 == "Exchange cards with pile") {
+        else if (actionType == ActionType.EXCHANGE_CARD_WITH_PILE) {
             Set<Card> cardsToSwap = group.player().controller.selectManyAmong(group.player().cards());
             group.player().cards = group.player().cards().removeAll(cardsToSwap);
             group.player().add(cardDraw.swapWith(cardsToSwap.toList()));
         }
-        else if (actionType1 == "Exchange cards with other player") {
+        else if (actionType == ActionType.EXCHANGE_CARD_WITH_OTHER_PLAYER) {
             Player playerToSwapWith = group.player().controller.selectPlayerAmong(groups.associations.map(Group::player).remove(group.player()));
             group.player().exchangeHandWith(playerToSwapWith);
         }
-        else if (actionType1 == "Kill") {
+        else if (actionType == ActionType.KILL) {
             Character characterToMurder = group.player().controller.selectAmong(List.of(Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD));
             groups.associationToCharacter(characterToMurder).peek(Group::murder);
         }
-        else if (actionType1 == "Pick 2 cards") {
+        else if (actionType == ActionType.PICK_2_CARDS) {
             group.player().add(cardDraw.draw(2));
         }
-        else if (actionType1 == "Receive 2 coins") {
+        else if (actionType == ActionType.RECEIVE_2_COINS) {
             group.player().add(2);
         }
-        else if (actionType1 == "Receive 1 gold") {
+        else if (actionType == ActionType.RECEIVE_1_GOLD) {
             group.player().add(1);
         }
-        else if (actionType1 == "Receive income") {
+        else if (actionType == ActionType.RECEIVE_INCOME) {
             DistrictType type = null;
             if (group.character == Character.BISHOP) {
                 type = DistrictType.RELIGIOUS;
@@ -326,9 +322,9 @@ public class Citadels {
                 }
             }
         }
-        else if (actionType1 == "Destroy district") {
+        else if (actionType == ActionType.DESTROY_DISTRICT) {
             DestroyDistrict.destroyDistrict(group.player(), players);
-        } else if (actionType1 == "Rob") {
+        } else if (actionType == ActionType.ROB) {
 
             Character character = group.player().controller.selectAmong(List.of(Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD)
                     .removeAll(groups.associations.find(Group::isMurdered).map(Group::character)));

@@ -28,7 +28,9 @@ public enum ActionType {
         return labelAction;
     }
 
-
+    public String getLabel(){
+        return this.labelAction;
+    }
 
 
     private final String labelAction;
