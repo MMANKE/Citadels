@@ -2,6 +2,7 @@ package com.montaury.citadels.character;
 
 import com.montaury.citadels.district.DistrictType;
 import com.montaury.citadels.round.ActionType;
+import com.montaury.citadels.round.action.Action;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 
@@ -15,7 +16,8 @@ public enum Character {
     BISHOP(5, "Bishop", List.of(ActionType.RECEIVE_INCOME), DistrictType.RELIGIOUS),
     MERCHANT(6, "Merchant",  List.of(ActionType.RECEIVE_1_GOLD, ActionType.RECEIVE_INCOME), DistrictType.TRADE),
     ARCHITECT(7, "Architect", List.of(ActionType.PICK_2_CARDS, ActionType.BUILD_DISTRICT, ActionType.BUILD_DISTRICT)),
-    WARLORD(8, "Warlord",  List.of(ActionType.DESTROY_DISTRICT, ActionType.RECEIVE_INCOME), DistrictType.MILITARY);
+    WARLORD(8, "Warlord",  List.of(ActionType.DESTROY_DISTRICT, ActionType.RECEIVE_INCOME), DistrictType.MILITARY),
+    ALCHEMIST(9, "Alchemist", List.of(ActionType.RECEIVE_INCOME));
 
     Character(int number, String name, List<ActionType> powers)
     {

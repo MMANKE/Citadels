@@ -20,17 +20,20 @@ public enum ActionType {
     ROB("Rob", new RobAction());
 
 
-    ActionType(String aLabelAction, Action anAction) {
-        this.labelAction = aLabelAction;
+    ActionType(String label, Action anAction) {
+        this.label = label;
         this.action = anAction;
     }
 
     public String getLabel(){
-        return this.labelAction;
+        return this.label;
     }
 
+    public Action getAction(){
+        return this.action;
+    }
 
-    private final String labelAction;
+    private final String label;
     private final Action action;
 
 

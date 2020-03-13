@@ -58,7 +58,7 @@ public class Citadels {
             Collections.rotate(list, -players.indexOf(crown));
             List<Player> playersInOrder = List.ofAll(list);
             RandomCharacterSelector randomCharacterSelector = new RandomCharacterSelector();
-            List<Character> availableCharacters = List.of(Character.ASSASSIN, Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD);
+            List<Character> availableCharacters = List.of(Character.ASSASSIN, Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD, Character.ALCHEMIST);
 
             List<Character> availableCharacters1 = availableCharacters;
             List<Character> discardedCharacters = List.empty();
@@ -204,8 +204,9 @@ public class Citadels {
                                 actionType1 = group.player().controller.selectActionTypeAmong(possibleActions2.toList());
                                 // execute selected action
 
-                                executeAction(actionType1,group,cardDraw,groups,players);
-
+                                if(actionType1.getAction().isAvailableForPlayer(actionType1, group.player(), cardDraw, groups, players, group)){
+                                    actionType1.getAction().executeAction(actionType1, group.player(), cardDraw, groups, players, group);
+                                }
                                 actionExecuted(group, actionType1, associations);
                                 availableActions11 = availableActions11.remove(actionType1);
                             }
