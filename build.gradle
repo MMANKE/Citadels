@@ -11,8 +11,11 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation 'io.vavr:vavr:0.9.2'
-    testImplementation group: 'junit.jupiter', name: 'jupiter', version: '4.12'
     testImplementation("org.assertj:assertj-core:3.11.1")
 }
