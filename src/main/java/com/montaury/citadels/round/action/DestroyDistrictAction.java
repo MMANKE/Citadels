@@ -1,6 +1,7 @@
 package com.montaury.citadels.round.action;
 
 import com.montaury.citadels.CardPile;
+import com.montaury.citadels.DestroyDistrict;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.district.DestructibleDistrict;
 import com.montaury.citadels.player.Player;
@@ -25,7 +26,7 @@ public class DestroyDistrictAction implements Action {
 
     @Override
     public void executeAction(ActionType actionType, Player p, CardPile cardDraw, GameRoundAssociations groups, List<Player> players, Group group) {
-
+        DestroyDistrict.destroyDistrict(p, players);
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.montaury.citadels.district.DestructibleDistrict;
 import com.montaury.citadels.player.ComputerController;
 import com.montaury.citadels.player.Player;
 import io.vavr.collection.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

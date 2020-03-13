@@ -11,12 +11,11 @@ public class EndRoundAction implements Action{
 
     @Override
     public void executeAction(ActionType actionType, Player p, CardPile cardDraw, GameRoundAssociations groups, List<Player> players, Group group) {
-
     }
 
     @Override
     public boolean isAvailableForPlayer(ActionType actionType, Player p, CardPile cardDraw, GameRoundAssociations groups, List<Player> players, Group group) {
-        return false;
+        return true;
     }
 
 }

@@ -235,4 +235,5 @@ public class Citadels {
     private static String textCard(Card card) {
         return textDistrict(card.district());
     }
+
 }
